@@ -9,6 +9,7 @@ import { Logo } from "./components/Logo/Logo";
 import logo from "./assets/images/logo.png"
 import { TVShowListItem } from "./components/TVShowListItem/TVShowListItem";
 import { TVShowList } from "./components/TVShowList/TVShowList";
+import { SearchBar } from "./components/SearchBar/SearchBar";
 
 // TVShowAPI.fetchPopulars();
 
@@ -42,8 +43,15 @@ export function App() {
 
     // console.log("***", currentTVShow);
 
-    function setCurrentTVShowFromRecommendation(tvShow){
-        alert(JSON.stringify(tvShow))
+    // function setCurrentTVShowFromRecommendation(tvShow){
+    //     alert(JSON.stringify(tvShow))
+    // }
+
+    async function searchTVShow(tvShowName){
+        const searchResponse = await TVShowAPI.fetchByTitle(tvShowName);
+        if(searchResponse.length > 0) {
+            setCurrentTVShow(searchResponse[0]);
+        }
     }
 
     return (
@@ -54,7 +62,7 @@ export function App() {
                         <Logo image={logo} title="Watowatch" subtitles="Find a show you may like" />
                     </div>
                     <div className="col-sm-12 col-md-4">
-                        <input style={{ width:"100%" }} type="text" />
+                        <SearchBar onSubmit={searchTVShow} />
                     </div>
                 </div>
             </div>
