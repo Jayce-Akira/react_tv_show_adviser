@@ -19,15 +19,23 @@ export function App() {
     const [recommendationList, setRecommendationList] = useState([]);
     // on fait un useEffect
     async function fetchPopulars(){
-        const populars = await TVShowAPI.fetchPopulars();
-        if(populars.length > 0) {
-            setCurrentTVShow(populars[0]);
+        try {
+            const populars = await TVShowAPI.fetchPopulars();
+            if(populars.length > 0) {
+                setCurrentTVShow(populars[0]);
+            }
+        } catch (error) {
+            alert("Erreur durant la recherche des séries populaires");
         }
     }
     async function fetchRecommendations(TVShowId){
-        const recommendations = await TVShowAPI.fetchRecommendations(TVShowId);
-        if(recommendations.length > 0) {
-            setRecommendationList(recommendations.slice(0,10));
+        try {
+            const recommendations = await TVShowAPI.fetchRecommendations(TVShowId);
+            if(recommendations.length > 0) {
+                setRecommendationList(recommendations.slice(0,10));
+            }
+        } catch (error) {
+            alert("Erreur durant la recherche des séries recommandées");
         }
     }
 
@@ -48,9 +56,13 @@ export function App() {
     // }
 
     async function searchTVShow(tvShowName){
-        const searchResponse = await TVShowAPI.fetchByTitle(tvShowName);
-        if(searchResponse.length > 0) {
-            setCurrentTVShow(searchResponse[0]);
+        try {
+            const searchResponse = await TVShowAPI.fetchByTitle(tvShowName);
+            if(searchResponse.length > 0) {
+                setCurrentTVShow(searchResponse[0]);
+            }
+        } catch (error) {
+            alert("Erreur durant la recherche de la série");
         }
     }
 
